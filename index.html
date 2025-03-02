@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reinforcement Learning III Mind Map</title>
+  <!-- Load MathJax for LaTeX rendering -->
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f8f9fa;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .mindmap {
+      position: relative;
+      width: 1400px;
+      height: 1200px;
+      margin: 20px 0;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .node {
+      position: absolute;
+      padding: 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      font-weight: bold;
+    }
+    .node:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    /* Colors */
+    .red {
+      background-color: #ffcccc;
+      border: 2px solid #e60000;
+      color: #990000;
+    }
+    .blue {
+      background-color: #cce5ff;
+      border: 2px solid #0066cc;
+      color: #004080;
+    }
+    .green {
+      background-color: #ccffcc;
+      border: 2px solid #00cc00;
+      color: #006600;
+      font-weight: normal;
+    }
+    /* Info panel styles */
+    #infoPanel {
+      width: 1400px;
+      min-height: 150px;
+      padding: 15px;
+      margin-top: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: none;
+    }
+    .infoTitle {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+    }
+    .infoContent {
+      line-height: 1.5;
+    }
+    /* Legend styles */
+    .legend {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+    }
+    .legendItem {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .legendBox {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+    }
+    line {
+      stroke: #999;
+      stroke-width: 2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Reinforcement Learning III</h1>
+    
+    <div class="mindmap" id="mindmap">
+      <!-- SVG for connecting lines -->
+      <svg width="1400" height="1200" style="position: absolute; top: 0; left: 0;">
+        <!-- Central node assumed center at (700,600) -->
+        <!-- Connect central red node to each Blue Node -->
+        <line x1="700" y1="600" x2="100" y2="100" />     <!-- Blue Node A: Exploration -->
+        <line x1="700" y1="600" x2="1300" y2="100" />    <!-- Blue Node B: Generalisation in RL -->
+        <line x1="700" y1="600" x2="700" y2="1100" />     <!-- Blue Node C: Policy Search -->
+        
+        <!-- Blue Node A (Exploration) to its Green Nodes -->
+        <line x1="100" y1="100" x2="100" y2="180" />   <!-- Greedy Policy Problem -->
+        <line x1="100" y1="100" x2="100" y2="240" />   <!-- Exploration Function -->
+        <line x1="100" y1="100" x2="100" y2="300" />   <!-- Modified Q-learning -->
+        
+        <!-- Blue Node B (Generalisation in RL) to its Green Nodes -->
+        <line x1="1300" y1="100" x2="1300" y2="180" />   <!-- Direct Utility Estimation -->
+        <line x1="1300" y1="100" x2="1300" y2="240" />   <!-- Adaptive Dynamic Programming (ADP) -->
+        <line x1="1300" y1="100" x2="1300" y2="300" />   <!-- Temporal Difference (TD) Learning -->
+        <line x1="1300" y1="100" x2="1300" y2="360" />   <!-- Function Approximation & Widrow-Hoff -->
+        
+        <!-- Blue Node C (Policy Search) to its Green Nodes -->
+        <line x1="700" y1="1100" x2="700" y2="1170" />   <!-- Parameterised Policy & Softmax -->
+        <line x1="700" y1="1100" x2="700" y2="1230" />   <!-- Policy Gradient Estimation -->
+        <line x1="700" y1="1100" x2="700" y2="1290" />   <!-- Challenges: Differentiability & Sample Efficiency -->
+      </svg>
+      
+      <!-- Central Red Node -->
+      <div class="node red" style="width: 300px; top: 560px; left: 550px;" 
+           onclick="showInfo('Reinforcement Learning III', 
+           '&lt;ul&gt;&lt;li&gt;RL III extends RL by addressing exploration, generalisation, and direct policy search.&lt;/li&gt;&lt;li&gt;It covers methods to overcome greedy policies, approximate utility functions, and directly optimize policies.&lt;/li&gt;&lt;/ul&gt;')">
+        Reinforcement Learning III
+      </div>
+      
+      <!-- Blue Node A: Exploration -->
+      <div class="node blue" style="width: 250px; top: 20px; left: 50px;" 
+           onclick="showInfo('Exploration', 
+           '&lt;ul&gt;&lt;li&gt;Greedy policies (\\(\\pi(s)=\\arg\\max_a Q(s,a)\\)) may miss parts of the state space.&lt;/li&gt;&lt;li&gt;An exploration function ensures each action is tried at least \\(N_{\\min}\\) times: \\( f(u,n)=\\begin{cases} R^{\\prime} & \\text{if } n < N_{\\min} \\\\ u & \\text{otherwise} \\end{cases} \\).&lt;/li&gt;&lt;li&gt;This exploration strategy is integrated into Q-learning to improve state-space coverage.&lt;/li&gt;&lt;/ul&gt;')">
+        Exploration
+      </div>
+      <!-- Green Nodes for Exploration -->
+      <div class="node green" style="width: 220px; top: 180px; left: 50px;" 
+           onclick="showInfo('Greedy Policy Problem', 
+           '&lt;ul&gt;&lt;li&gt;A greedy policy selects \\( \\pi(s)=\\arg\\max_a Q(s,a) \\), which may overlook untried actions.&lt;/li&gt;&lt;/ul&gt;')">
+        Greedy Policy Problem
+      </div>
+      <div class="node green" style="width: 220px; top: 240px; left: 50px;" 
+           onclick="showInfo('Exploration Function', 
+           '&lt;ul&gt;&lt;li&gt;Defined as \\( f(u,n)=\\begin{cases} R^{\\prime} & \\text{if } n < N_{\\min} \\\\ u & \\text{otherwise} \\end{cases} \\), where \\( R^{\\prime} \\) is an optimistic reward.&lt;/li&gt;&lt;/ul&gt;')">
+        Exploration Function
+      </div>
+      <div class="node green" style="width: 220px; top: 300px; left: 50px;" 
+           onclick="showInfo('Modified Q-learning', 
+           '&lt;ul&gt;&lt;li&gt;The Q-learning update is modified to use the exploration function when selecting actions.&lt;/li&gt;&lt;/ul&gt;')">
+        Modified Q-learning
+      </div>
+      
+      <!-- Blue Node B: Generalisation in RL -->
+      <div class="node blue" style="width: 250px; top: 20px; left: 1100px;" 
+           onclick="showInfo('Generalisation in RL', 
+           '&lt;ul&gt;&lt;li&gt;Direct utility estimation uses trial returns to compute \\( U^{\\pi}(s) \\).&lt;/li&gt;&lt;li&gt;Adaptive Dynamic Programming (ADP) approximates transition probabilities and applies the Bellman update: \\( U(s)=R(s)+\\gamma\\sum_{s'}T(s\'|s,\\pi(s))U(s') \\).&lt;/li&gt;&lt;li&gt;Temporal Difference (TD) Learning updates values using \\( U^{\\pi}(s)\\leftarrow U^{\\pi}(s)+\\alpha\\big(R(s)+\\gamma U^{\\pi}(s')-U^{\\pi}(s)\\big) \\).&lt;/li&gt;&lt;li&gt;Linear function approximation and the Widrow–Hoff rule allow generalisation across similar states.&lt;/li&gt;&lt;/ul&gt;')">
+        Generalisation in RL
+      </div>
+      <!-- Green Nodes for Generalisation -->
+      <div class="node green" style="width: 220px; top: 180px; left: 1100px;" 
+           onclick="showInfo('Direct Utility Estimation', 
+           '&lt;ul&gt;&lt;li&gt;Estimate the utility \\( U^{\\pi}(s) \\) as the average return from multiple trials: \\( U^{\\pi}(s) \\approx \\frac{1}{N}\\sum_{i=1}^{N} u_i(s) \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Direct Utility Estimation
+      </div>
+      <div class="node green" style="width: 220px; top: 240px; left: 1100px;" 
+           onclick="showInfo('Adaptive Dynamic Programming (ADP)', 
+           '&lt;ul&gt;&lt;li&gt;ADP approximates the transition model \\( T(s\'|s,\\pi(s)) \\) and updates \\( U(s)=R(s)+\\gamma\\sum_{s'}T(s\'|s,\\pi(s))U(s') \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Adaptive Dynamic Programming
+      </div>
+      <div class="node green" style="width: 220px; top: 300px; left: 1100px;" 
+           onclick="showInfo('Temporal Difference (TD) Learning', 
+           '&lt;ul&gt;&lt;li&gt;TD Learning updates state values as \\( U^{\\pi}(s) \\leftarrow U^{\\pi}(s)+\\alpha\\Big( R(s)+\\gamma U^{\\pi}(s\')-U^{\\pi}(s) \\Big) \\).&lt;/li&gt;&lt;/ul&gt;')">
+        TD Learning
+      </div>
+      <div class="node green" style="width: 220px; top: 360px; left: 1100px;" 
+           onclick="showInfo('Function Approximation & Widrow–Hoff Rule', 
+           '&lt;ul&gt;&lt;li&gt;Use a linear approximator: \\( U_\\theta(s)=\\sum_{i=1}^n \\theta_i f_i(s) \\).&lt;/li&gt;&lt;li&gt;Update rule: \\( \\theta_i \\leftarrow \\theta_i + \\alpha \\,\\delta \\, \\frac{\\partial U_\\theta(s)}{\\partial \\theta_i} \\), where \\( \\delta = R(s)+\\gamma U(s\')-U(s) \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Function Approx. & Widrow–Hoff
+      </div>
+      
+      <!-- Blue Node C: Policy Search -->
+      <div class="node blue" style="width: 250px; top: 950px; left: 600px;" 
+           onclick="showInfo('Policy Search', 
+           '&lt;ul&gt;&lt;li&gt;Policy search directly optimizes a parameterized policy \\(\\pi_\\theta(s)\\).&lt;/li&gt;&lt;li&gt;A common approach uses a softmax: \\( \\pi_\\theta(s,a)=\\frac{e^{\\beta Q_\\theta(s,a)}}{\\sum_{a'}e^{\\beta Q_\\theta(s,a')}} \\).&lt;/li&gt;&lt;li&gt;Policy gradients are estimated via \\( \\nabla_\\theta \\rho(\\theta) \\approx \\frac{1}{N}\\sum_{i=1}^N \\frac{\\nabla_\\theta \\pi_\\theta(s_i,a_i)}{\\pi_\\theta(s_i,a_i)} \\).&lt;/li&gt;&lt;li&gt;This overcomes the non-differentiability of \\( \\arg\\max \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Policy Search
+      </div>
+      <!-- Green Nodes for Policy Search -->
+      <div class="node green" style="width: 220px; top: 1020px; left: 600px;" 
+           onclick="showInfo('Parameterized Policy & Softmax', 
+           '&lt;ul&gt;&lt;li&gt;Represent the policy as \\( \\pi_\\theta(s) = \\arg\\max_a Q_\\theta(s,a) \\), then smooth it with softmax: \\( \\pi_\\theta(s,a)=\\frac{e^{\\beta Q_\\theta(s,a)}}{\\sum_{a'}e^{\\beta Q_\\theta(s,a')}} \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Parameterized Policy & Softmax
+      </div>
+      <div class="node green" style="width: 220px; top: 1080px; left: 600px;" 
+           onclick="showInfo('Policy Gradient', 
+           '&lt;ul&gt;&lt;li&gt;Estimate the gradient of the policy value: \\( \\nabla_\\theta \\rho(\\theta) \\approx \\frac{1}{N}\\sum_{i=1}^N \\frac{\\nabla_\\theta \\pi_\\theta(s_i,a_i)}{\\pi_\\theta(s_i,a_i)} \\).&lt;/li&gt;&lt;/ul&gt;')">
+        Policy Gradient
+      </div>
+      <div class="node green" style="width: 220px; top: 1140px; left: 600px;" 
+           onclick="showInfo('Challenges', 
+           '&lt;ul&gt;&lt;li&gt;Key challenges include non-differentiability and sample inefficiency in estimating the policy gradient.&lt;/li&gt;&lt;/ul&gt;')">
+        Challenges &amp; Solutions
+      </div>
+      
+    </div>
+    
+    <!-- Information Panel -->
+    <div id="infoPanel">
+      <div class="infoTitle" id="infoTitle">Click on a concept to see details</div>
+      <div class="infoContent" id="infoContent">
+        Select any node in the mind map to display detailed information.
+      </div>
+    </div>
+    
+    <!-- Legend -->
+    <div class="legend">
+      <div class="legendItem">
+        <div class="legendBox red"></div>
+        <span>Big Picture Concepts</span>
+      </div>
+      <div class="legendItem">
+        <div class="legendBox blue"></div>
+        <span>Major Categories</span>
+      </div>
+      <div class="legendItem">
+        <div class="legendBox green"></div>
+        <span>Details &amp; Equations</span>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    function showInfo(title, content) {
+      document.getElementById("infoPanel").style.display = "block";
+      document.getElementById("infoTitle").textContent = title;
+      document.getElementById("infoContent").innerHTML = content;
+      MathJax.typesetPromise(); // re-render equations
+    }
+  </script>
+</body>
+</html>
